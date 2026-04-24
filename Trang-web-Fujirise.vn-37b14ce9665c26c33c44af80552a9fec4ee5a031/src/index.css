@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", serif;
+  
+  --color-fuji-blue: #1b2a43;
+  --color-fuji-dark: #0f172a;
+  --color-fuji-accent: #C5A059;
+  --color-fuji-bg: #ffffff;
+  --color-fuji-line: #f8fafc;
+}
+
+@layer base {
+  body {
+    @apply font-sans bg-fuji-bg text-slate-900 antialiased;
+  }
+  
+  /* Use a strong display font for headings and a neutral sans for body */
+  :root {
+    --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --font-display: "Poppins", system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+    font-weight: 700;
+    text-transform: none;
+  }
+
+  /* Vietnamese-friendly text helper */
+  .vi-text {
+    font-family: var(--font-sans);
+    font-feature-settings: "liga" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .vi-heading {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .font-serif-display {
+      /* legacy class: map to new strong display font to avoid changing many files */
+      font-family: var(--font-display);
+      font-style: normal;
+      font-weight: 700;
+    }
+}
+
+.lux-card {
+  @apply bg-white border border-fuji-line rounded-2xl shadow-sm transition-all duration-300 hover:shadow-2xl hover:-translate-y-1;
+}
+
+.btn-primary {
+  @apply bg-fuji-blue text-white px-8 py-4 rounded-full font-bold shadow-xl transition-all hover:shadow-blue-200 hover:scale-105 active:scale-95 flex items-center justify-center gap-2;
+}
+
+/* Make buttons visually heavier and use display font for strong CTAs */
+.btn-primary, .btn-outline, button, .btn {
+  font-family: var(--font-sans);
+  font-weight: 800;
+}
+
+.btn-outline {
+  @apply border-2 border-fuji-blue text-fuji-blue px-8 py-4 rounded-full font-bold transition-all hover:bg-fuji-blue hover:text-white;
+}
+
+.glass {
+  @apply bg-white/10 backdrop-blur-sm border border-white/20;
+}
+
+.gradient-text {
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-fuji-blue to-fuji-accent;
+}
+
+/* Make extremely small utility classes more readable across the site.
+   These rules gently increase pixel-precise classes (e.g. text-[9px])
+   without editing every component. Use with caution — they only affect
+   class names containing these exact substrings. */
+[class*="text-[9px]"] {
+  font-size: 0.75rem !important; /* ~12px */
+}
+[class*="text-[10px]"] {
+  font-size: 0.8125rem !important; /* ~13px */
+  font-family: var(--font-sans) !important;
+  text-transform: none !important;
+}
+[class*="text-[8px]"] {
+  font-size: 0.6875rem !important; /* ~11px */
+}
+
+/* Ensure utility tiny text uses Vietnamese-capable font */
+.text-sm, .text-xs, .text-[10px], .text-[9px], .text-[8px] {
+  font-family: var(--font-sans) !important;
+}
+
+/* Ensure headings are visually distinct and use serif display */
+h1 {
+  line-height: 1.05;
+}
+

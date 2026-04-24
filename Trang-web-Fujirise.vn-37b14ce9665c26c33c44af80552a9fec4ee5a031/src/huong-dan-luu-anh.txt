@@ -1,0 +1,5 @@
+THƯ MỤC LƯU TRỮ HÌNH ẢNH CỦA WEBSITE
+-------------------------------------
+1. Thư mục "public" và "images" đã được tạo thành công!
+2. Bây giờ, bạn hãy copy tất cả các file ảnh thực tế của công ty (ví dụ: thang-may-1.jpg, logo.png...) và dán thẳng vào thư mục này.
+3. Trong file src/constants.ts, bạn chỉ cần gắn đường dẫn ngắn gọn là: "/images/thang-may-1.jpg" là web sẽ tự động nhận diện.
