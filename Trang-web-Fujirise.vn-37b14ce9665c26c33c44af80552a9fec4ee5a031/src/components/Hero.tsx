@@ -18,6 +18,12 @@ export default function Hero() {
       } catch (e) {}
     };
     fetchSettings();
+
+    // Lắng nghe thay đổi thời gian thực
+    const channel = supabase.channel('hero-settings-update')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'site_settings' }, fetchSettings)
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
   }, []);
 
   return (
@@ -49,7 +55,7 @@ export default function Hero() {
           transition={{ delay: 0.2 }}
           className="text-5xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter leading-[1.1] mb-8 drop-shadow-2xl"
         >
-          <span dangerouslySetInnerHTML={{ __html: content.hero_title || 'NÂNG TẦM <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-fuji-accent to-yellow-200 italic font-serif">KHÔNG GIAN SỐNG</span>' }} />
+          <span dangerouslySetInnerHTML={{ __html: content.hero_title || '<span className="text-transparent bg-clip-text bg-gradient-to-br from-white via-cyan-200 to-blue-500 drop-shadow-[0_0_30px_rgba(34,211,238,0.4)]">NÂNG TẦM</span> <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-fuji-accent to-yellow-200 italic font-serif">KHÔNG GIAN SỐNG</span>' }} />
         </motion.h1>
 
         <motion.p 
@@ -57,9 +63,8 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
           className="text-lg md:text-xl text-white/80 font-medium max-w-2xl mx-auto mb-10 leading-relaxed"
-        >
-          {content.hero_desc || 'Giải pháp thang máy gia đình nhập khẩu cao cấp, kết hợp hoàn hảo giữa kỹ thuật an toàn tuyệt đối và nghệ thuật kiến trúc đương đại.'}
-        </motion.p>
+          dangerouslySetInnerHTML={{ __html: content.hero_desc || 'Giải pháp thang máy gia đình nhập khẩu cao cấp, kết hợp hoàn hảo giữa kỹ thuật an toàn tuyệt đối và nghệ thuật kiến trúc đương đại.' }}
+        />
 
         <motion.div 
           initial={{ opacity: 0, y: 20 }}

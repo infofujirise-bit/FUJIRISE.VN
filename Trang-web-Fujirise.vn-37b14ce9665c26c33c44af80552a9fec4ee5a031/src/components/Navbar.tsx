@@ -18,6 +18,12 @@ export default function Navbar() {
       } catch (e) {}
     };
     fetchLogo();
+
+    // Lắng nghe thay đổi Logo thời gian thực
+    const channel = supabase.channel('navbar-settings-update')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'site_settings' }, fetchLogo)
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
   }, []);
 
   React.useEffect(() => {

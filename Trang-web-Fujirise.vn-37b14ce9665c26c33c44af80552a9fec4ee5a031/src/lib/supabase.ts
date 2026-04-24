@@ -1,54 +1,51 @@
-/// <reference types="vite/client" />
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://gcnkancuxubpcxaocxuc.supabase.co';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdjbmthbmN1eHVicGN4YW9jeHVjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4MTU5NDcsImV4cCI6MjA5MjM5MTk0N30.xxpNK7Nwn_rzRwMO0rtaCs0SGJBt61-I1n7LRhftmJk';
+// 1. Kiểm tra môi trường để nhận biết trạng thái kết nối
+const HAS_ENV = Boolean(import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY);
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://offline-fujirise.supabase.co';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'offline-key';
 
-// Lazy initialization to prevent app crash when keys are missing
-const getSupabaseClient = () => {
-  if (!supabaseUrl || !supabaseAnonKey) {
-    const warn = () => console.warn('SUPABASE ERROR: VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY is missing. Action ignored.');
-    
-    return {
-      from: () => ({
-        insert: () => { warn(); return { error: { message: 'Supabase not configured' } }; },
-        select: () => { warn(); return { data: [], count: 0, error: { message: 'Supabase not configured' } }; },
-        order: function() { return this; },
-        limit: function() { return this; },
-        single: () => { warn(); return { data: null, error: { message: 'Supabase not configured' } }; },
-        eq: function() { return this; },
-      }),
-      auth: {
-        getSession: async () => ({ data: { session: null }, error: null }),
-        signInWithOAuth: async () => { warn(); return { data: {}, error: null }; },
-        onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
-        signOut: async () => { warn(); },
-        getUser: async () => ({ data: { user: null }, error: null }),
-      },
-      channel: () => ({
-        on: function() { return this; },
-        subscribe: () => ({ unsubscribe: () => {} }),
-      }),
-      removeChannel: () => {},
-    };
+// 2. Tùy chỉnh Fetch API để website luôn "mượt", không bao giờ bị treo (xoay vòng) do mạng
+const smoothFetch = async (url: RequestInfo | URL, options?: RequestInit) => {
+  if (!HAS_ENV) {
+    // Chặn fetch ngay lập tức nếu chưa có Data, mô phỏng lỗi chuẩn của Supabase
+    return new Response(JSON.stringify({ message: 'Chưa cấu hình cơ sở dữ liệu', details: 'Offline bypass' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' }
+    });
   }
-  return createClient(supabaseUrl, supabaseAnonKey);
+  try {
+    return await fetch(url, options);
+  } catch (error) {
+    // Bắt lỗi rớt mạng hoặc tường lửa, trả về lỗi thay vì văng Exception sập trang web
+    return new Response(JSON.stringify({ message: 'Mất kết nối mạng', details: 'Network Error' }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
 };
 
-export const supabase = getSupabaseClient() as any;
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    persistSession: true, // Duy trì phiên đăng nhập mượt mà cho Admin
+    autoRefreshToken: true
+  },
+  global: {
+    fetch: smoothFetch
+  }
+});
 
-export interface Lead {
-  id?: string;
-  name: string;
-  phone: string;
-  email?: string;
-  message: string;
-  created_at?: string;
-  status: 'new' | 'contacted' | 'completed' | 'cancelled';
-}
-
-export interface AdminUser {
-  id: string;
-  email: string;
-  role: 'admin' | 'seller';
-}
+// 3. Ghi đè tính năng Realtime (WebSocket) để ngăn chặn rò rỉ bộ nhớ & giật lag
+const originalChannel = supabase.channel.bind(supabase);
+supabase.channel = (name: string, opts?: any) => {
+  if (!HAS_ENV) {
+    // Tạo một kênh (channel) giả mạo để các file UI gọi .subscribe() không bị sập
+    const mockChannel: any = {
+      on: () => mockChannel,
+      subscribe: (cb?: any) => { if(cb) cb('CLOSED'); return mockChannel; },
+      unsubscribe: () => Promise.resolve()
+    };
+    return mockChannel;
+  }
+  return originalChannel(name, opts);
+};

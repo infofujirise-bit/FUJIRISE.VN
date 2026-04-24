@@ -14,6 +14,12 @@ export default function Footer() {
       } catch (e) {}
     };
     fetchLogo();
+
+    // Lắng nghe thay đổi Logo thời gian thực ở Footer
+    const channel = supabase.channel('footer-settings-update')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'site_settings' }, fetchLogo)
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
   }, []);
 
   return (

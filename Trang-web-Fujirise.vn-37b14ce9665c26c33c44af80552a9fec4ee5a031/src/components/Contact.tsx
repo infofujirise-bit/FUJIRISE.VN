@@ -28,6 +28,12 @@ export default function Contact() {
       } catch (err) {}
     };
     fetchSettings();
+
+    // Lắng nghe thay đổi Hotline/Địa chỉ thời gian thực
+    const channel = supabase.channel('contact-settings-update')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'site_settings' }, fetchSettings)
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
   }, []);
 
   const onSubmit = async (data: FormData) => {

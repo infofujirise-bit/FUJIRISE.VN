@@ -114,10 +114,10 @@ export default function Home() {
             <div>
               <span className="text-[10px] font-black uppercase tracking-[0.4em] text-fuji-accent mb-6 block"></span>
               <h2 className="text-5xl md:text-7xl font-black text-fuji-blue tracking-tighter leading-[0.9] mb-10">
-                <span dangerouslySetInnerHTML={{ __html: content.about_title || 'THIẾT LẬP <br/><span className="text-slate-300">TIÊU CHUẨN SỐNG</span>' }} />
+                <span dangerouslySetInnerHTML={{ __html: content.about_title || 'THIẾT LẬP <br/><span class="text-slate-300">TIÊU CHUẨN SỐNG</span>' }} />
               </h2>
               <p className="text-slate-600 text-lg font-medium leading-relaxed mb-8">
-                {content.about_desc || 'Được thành lập vào năm 2026, Fujirise mang trong mình tầm nhìn khát vọng: Trở thành biểu tượng của sự xa xỉ và an toàn tuyệt đối. Chúng tôi không chỉ cung cấp thang máy nhập khẩu cao cấp, mà còn kiến tạo nên những không gian nghệ thuật, định hình lại phong cách sống đẳng cấp cho giới tinh hoa.'}
+              <span dangerouslySetInnerHTML={{ __html: content.about_desc || 'Được thành lập vào năm 2026, Fujirise mang trong mình tầm nhìn khát vọng: Trở thành biểu tượng của sự xa xỉ và an toàn tuyệt đối. Chúng tôi không chỉ cung cấp thang máy nhập khẩu cao cấp, mà còn kiến tạo nên những không gian nghệ thuật, định hình lại phong cách sống đẳng cấp cho giới tinh hoa.' }} />
               </p>
               <div className="flex gap-12 border-t border-slate-100 pt-10">
                 <div>
@@ -137,10 +137,10 @@ export default function Home() {
               <div className="w-12 h-1 bg-fuji-accent mb-8 group-hover:w-24 transition-all" />
               <h3 className="text-sm font-semibold text-fuji-accent mb-4 block">Sứ mệnh</h3>
               <p className="text-2xl font-black text-fuji-blue group-hover:text-white leading-tight mb-6 tracking-tighter">
-                <span dangerouslySetInnerHTML={{ __html: content.about_mission_title || 'Setting the Standard for Living <br/> <span className="text-fuji-accent italic">Thiết lập tiêu chuẩn sống</span>' }} />
+              <span dangerouslySetInnerHTML={{ __html: content.about_mission_title || 'Setting the Standard for Living <br/> <span class="text-fuji-accent italic">Thiết lập tiêu chuẩn sống</span>' }} />
               </p>
               <p className="text-slate-500 group-hover:text-white/60 font-medium leading-relaxed">
-                {content.about_mission_desc || 'Mang đến những giải pháp thang máy an toàn, bền bỉ và dễ tiếp cận, góp phần thiết lập một chuẩn mực sống tiện nghi cho mọi gia đình.'}
+              <span dangerouslySetInnerHTML={{ __html: content.about_mission_desc || 'Mang đến những giải pháp thang máy an toàn, bền bỉ và dễ tiếp cận, góp phần thiết lập một chuẩn mực sống tiện nghi cho mọi gia đình.' }} />
               </p>
             </div>
 
@@ -149,10 +149,10 @@ export default function Home() {
               <div className="w-12 h-1 bg-fuji-accent mb-8" />
               <h3 className="text-sm font-semibold text-fuji-accent mb-4 block">Tầm nhìn</h3>
               <p className="text-3xl font-black text-white leading-tight mb-8 tracking-tighter">
-                <span dangerouslySetInnerHTML={{ __html: content.about_vision_title || 'Định hình tiêu chuẩn sống <br/> <span className="text-fuji-accent italic">hiện đại tại Việt Nam</span>' }} />
+              <span dangerouslySetInnerHTML={{ __html: content.about_vision_title || 'Định hình tiêu chuẩn sống <br/> <span class="text-fuji-accent italic">hiện đại tại Việt Nam</span>' }} />
               </p>
               <p className="text-white/60 font-medium leading-relaxed">
-                {content.about_vision_desc || 'Trở thành thương hiệu tiên phong trong việc định hình tiêu chuẩn sống hiện đại tại Việt Nam, nơi tiện nghi không còn là đặc quyền mà là điều hiển nhiên.'}
+              <span dangerouslySetInnerHTML={{ __html: content.about_vision_desc || 'Trở thành thương hiệu tiên phong trong việc định hình tiêu chuẩn sống hiện đại tại Việt Nam, nơi tiện nghi không còn là đặc quyền mà là điều hiển nhiên.' }} />
               </p>
             </div>
           </div>
