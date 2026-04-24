@@ -78,7 +78,6 @@ export default function Admin() {
   // Quên mật khẩu State
   const [forgotStep, setForgotStep] = React.useState(0);
   const [forgotEmail, setForgotEmail] = React.useState('');
-  const [forgotPhone, setForgotPhone] = React.useState('');
   const [forgotOTP, setForgotOTP] = React.useState('');
   const [generatedOTP, setGeneratedOTP] = React.useState('');
   const [forgotMsg, setForgotMsg] = React.useState('');
