@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Briefcase, MapPin, Clock, ArrowRight, X, CheckCircle2, User, Phone, MessageSquare } from 'lucide-react';
+import { Briefcase, MapPin, Clock, ArrowRight, X, CheckCircle2, User, Phone } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { CAREERS } from '../constants';
 import { supabase } from '../lib/supabase';

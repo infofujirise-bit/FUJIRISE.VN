@@ -10,7 +10,6 @@ import {
   Search,
   Bell,
   ArrowUpRight,
-  TrendingUp,
   MessageSquare,
   Activity,
   Calendar,
@@ -37,14 +36,7 @@ import {
   AlertTriangle,
   ImageIcon as LucideImage,
   X,
-  Send,
-  Facebook,
-  Youtube,
-  Instagram,
-  Twitter,
-  Video,
-  MessageCircle,
-  Globe
+  Send
 } from 'lucide-react';
 import { 
   AreaChart, 
@@ -53,10 +45,7 @@ import {
   YAxis, 
   CartesianGrid, 
   Tooltip, 
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  Cell
+  ResponsiveContainer
 } from 'recharts';
 import { cn } from '../lib/utils';
 import { supabase } from '../lib/supabase';
@@ -82,8 +71,6 @@ export default function Admin() {
   const [isLoggingIn, setIsLoggingIn] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState<Tab>('dashboard');
   const [error, setError] = React.useState('');
-  const isMockEnv = !import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_ANON_KEY;
-  const devAdminEnabled = (import.meta.env.VITE_DEV_ADMIN === 'true');
   
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
